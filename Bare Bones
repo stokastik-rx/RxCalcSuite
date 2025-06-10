@@ -1,0 +1,37 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Basic First Order Extrapolator
+
+# Prompt user for calibration data
+print("Please enter the following calibration data")
+
+# Enter calibration data, finds patient specific k
+dose_administered = float(input("Enter the dose administered in milligrams: "))
+plasma_concentration = float(input("Enter the plasma concentration measured: "))
+time_after_administration = float(input("Enter the time after administration that the plasma concentration was measured: "))
+
+
+# Defines the function for calculating k from measured data
+def calibrate():
+    global k
+    if plasma_concentration == 0:
+        print("Error: Division by zero.")
+    else:
+        k = (1 / time_after_administration) * np.log(dose_administered / plasma_concentration)
+        print("k:", k)
+
+calibrate()
+
+def model(t):
+  return dose_administered * np.exp(t * -1 * k)
+
+t_values = np.linspace(0,10,100)
+y_values = model(t_values)
+
+plt.plot(t_values, y_values)
+plt.title("Plasma Concentration Over Time After Bolus")
+plt.xlabel("t")
+plt.ylabel("mg/L")
+plt.grid(True)
+plt.show()
