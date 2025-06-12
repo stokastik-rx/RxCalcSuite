@@ -1,5 +1,3 @@
-#First Order Bolus PK Extrapolation
-
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -12,7 +10,8 @@ print("Please enter the following calibration data")
 dose_administered = float(input("Enter the dose administered in milligrams: "))
 plasma_concentration = float(input("Enter the plasma concentration measured: "))
 time_after_administration = float(input("Enter the time after administration that the plasma concentration was measured: "))
-
+high_level = float(input("Enter the high end of the target plasma concentration range: "))
+low_level = float(input("Enter the low end of the plasma concentration range: "))
 
 # Defines the function for calculating k from measured data
 def calibrate():
@@ -31,6 +30,9 @@ def model(t):
 t_values = np.linspace(0,10,100)
 y_values = model(t_values)
 
+
+plt.axhline(y=low_level, color='red', linestyle='--', label="y = 15")
+plt.axhline(y=high_level, color='green', linestyle='--', label="y = 20")
 plt.plot(t_values, y_values)
 plt.title("Plasma Concentration Over Time After Bolus")
 plt.xlabel("t")
